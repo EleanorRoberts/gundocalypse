@@ -1,0 +1,36 @@
+version: '3.9'
+services:
+    php:
+        build: 'config/docker/php'
+        volumes:
+            - '.:/project'
+        networks:
+            - default
+            - notesapp
+    nginx:
+        image: nginx:latest
+        ports:
+            - '2501:80'
+        volumes:
+            - '.:/project'
+            - './config/docker/nginx/nginx.conf:/etc/nginx/nginx.conf'
+        depends_on:
+            -   php
+    mysql:
+        image: mysql:8.0
+        environment:
+            - MYSQL_ROOT_PASSWORD=password
+            - MYSQL_DATABASE=notes
+            - MYSQL_USER=themaster
+            - MYSQL_PASSWORD=password
+        ports:
+            - "2502:3306"
+    mailhog:
+        image: mailhog/mailhog:v1.0.1
+        ports:
+            - '2503:8025'
+        profiles:
+            - mail
+networks:
+    notesapp:
+        name: notesapp
