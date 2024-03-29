@@ -6,7 +6,7 @@ services:
             - '.:/project'
         networks:
             - default
-            - notesapp
+            - gundocalypse
     nginx:
         image: nginx:latest
         ports:
@@ -32,5 +32,5 @@ services:
         profiles:
             - mail
 networks:
-    notesapp:
-        name: notesapp
+    gundocalypse:
+        name: gundocalypse
